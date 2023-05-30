@@ -350,3 +350,46 @@ void playTwoPlayerGame() {
         currentPlayer = (currentPlayer == 1) ? 2 : 1;
     }
 }
+
+// Игра против компьютера
+void playAgainstComputer() {
+    std::vector<std::vector<CellType>> board(boardSize, std::vector<CellType>(boardSize, CellType::Empty));
+    int currentPlayer = 1;
+    int totalMoves = 0;
+    while (true) {
+        std::cout << "Текущее состояние поля:" << std::endl;
+        displayBoard(board);
+
+        if (currentPlayer == 1) {
+            std::cout << "Ваш ход (нолики)." << std::endl;
+            makePlayerMove(board, CellType::Circle);
+        }
+        else {
+            std::cout << "Ход компьютера (крестики)." << std::endl;
+            makeComputerMove(board, CellType::Cross);
+        }
+
+        ++totalMoves;
+
+        // Проверка победы ноликов
+        if (checkWin(board, CellType::Circle)) {
+            displayBoard(board);
+            std::cout << "Вы победили!" << std::endl;
+            break;
+        }
+        // Проверка победы крестиков
+        else if (checkWin(board, CellType::Cross)) {
+            displayBoard(board);
+            std::cout << "Компьютер победил!" << std::endl;
+            break;
+        }
+        // Проверка ничьи
+        else if (totalMoves == boardSize * boardSize) {
+            displayBoard(board);
+            std::cout << "Ничья!" << std::endl;
+            break;
+        }
+        // Смена хода игрока
+        currentPlayer = (currentPlayer == 1) ? 2 : 1;
+    }
+}
